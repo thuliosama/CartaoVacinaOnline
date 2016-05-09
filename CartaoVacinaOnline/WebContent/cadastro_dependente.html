@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html >
+<head>
+<title>Cadastro - Cartão de vacina online</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="resources/css/cadastro.css" type="text/css"></link>
+<link rel="stylesheet"	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"	type="text/css" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+<script	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.min.js"	type="text/javascript"></script>
+<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js"></script>	
+<script src="resources/js/util.js"></script>
+<script src="resources/js/cadastro-dependente.js"></script>
+
+</head>
+<body >
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12" id="container-titulo">
+			<div class="row">
+
+				<div class="col-md-12 ">
+					<span class="titulo">Cartão de vacina <br />online
+					</span>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-md-12">
+			
+			<div class="wrap">
+				<p class="form-title">Cadastro de <br />dependentes</p>
+				<form class="login" method="post"  id="form_cadastro">
+				
+					<input type="text" name="nomeC" placeholder="Nome Completo" id="nomeC"  /> 
+					<div class="help-inline" id="nomeCInfo" style="display: none"></div>
+					
+					<input type="text" class="dataNasci calendario" name="dataNascimento"  placeholder="Data de nascimento" id="dataNasc" />
+					<div class="help-inline" id="dataNascInfo" style="display: none"></div>
+					<input type="submit"
+						value="Cadastrar" class="btn btn-success btn-sm" />
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

@@ -50,7 +50,7 @@ $('#form_cadastro').validate({
 		dataNascimento: { required: true, dateBR:true},
 		cpf: { required: true, verificaCPF: true },          
 		recpf:{required: true, equalTo:"#CPF"}
-	
+		
 		
 	},
 	messages: {

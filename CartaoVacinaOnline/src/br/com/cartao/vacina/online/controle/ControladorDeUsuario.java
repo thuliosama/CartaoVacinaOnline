@@ -90,4 +90,12 @@ public class ControladorDeUsuario {
 		}
 		return false;
 	}
+	
+
+
+	public void cadastrarDependente(Usuario responsavel, String parameter, String parameter2) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

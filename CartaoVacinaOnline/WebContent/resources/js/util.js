@@ -1,3 +1,7 @@
+try {
+	
+
+
 jQuery.validator.addMethod("verificaCPF", function(value, element) {
 	    value = value.replace('.','');
 	    value = value.replace('.','');
@@ -19,6 +23,11 @@ jQuery.validator.addMethod("verificaCPF", function(value, element) {
 	    if ((cpf.charAt(9) != a[9]) || (cpf.charAt(10) != a[10]) || cpf.match(expReg)) return false;
 	    return true;
 	}, "Informe um CPF válido."); // Mensagem padrão 
+} catch (e) {
+	
+}
+try {
+	
 
 jQuery.validator.addMethod("dateBR", function(value, element) {            
     //contando chars 
@@ -36,7 +45,9 @@ jQuery.validator.addMethod("dateBR", function(value, element) {
    if(ano < 1900)return false;
    return true;        
 }, "Informe uma data válida");  // Mensagem padrão 
-
+} catch (e) {
+	// TODO: handle exception
+}
 var Util = function(){
 		console.log('Instanciando classe util');
 	}; 

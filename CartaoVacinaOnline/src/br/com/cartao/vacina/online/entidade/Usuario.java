@@ -100,4 +100,10 @@ public class Usuario {
 		this.listaDependentes = listaDependentes;
 	}
 
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nome=" + nome + ", filiacaoPai=" + filiacaoPai + ", filiacaoMae=" + filiacaoMae
+				+ ", dataNascimento=" + dataNascimento + ", cpf=" + cpf + "]";
+	}
+
 }

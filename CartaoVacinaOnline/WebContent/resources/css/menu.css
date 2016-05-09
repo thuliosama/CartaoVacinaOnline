@@ -1,0 +1,11 @@
+.element-animation1 {
+	-webkit-transition: width 2s; /* For Safari 3.1 to 6.0 */
+	transition: width 2s;
+}
+
+.element-animation1:hover {
+	width: 90%;
+}
+.textoMaiusculo{
+	text-transform: uppercase;
+}
