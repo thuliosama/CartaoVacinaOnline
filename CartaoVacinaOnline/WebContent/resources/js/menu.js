@@ -43,7 +43,7 @@ function msgBemVindoUsuario(nomeUsuario){
 }
 function linkUsuario(usuario){
 	if(usuario != null){
-		$('.menuButton').prepend('<a href="#"  class=\'element-animation1 btn btn-lg btn-primary btn-block\'>Visualizar cartao de vacina '+usuario+'</a>');
+		$('.menuButton').prepend('<a href="#"  class=\'element-animation1 btn btn-lg btn-primary btn-block\'>Visualizar cartão de vacina '+usuario+'</a>');
 	
 	}
 }

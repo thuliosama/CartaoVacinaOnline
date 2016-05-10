@@ -28,9 +28,9 @@ public class Cadastro extends HttpServlet {
 			System.out.println("pedido de cadastro aceito!! iniciando cadastro");
 			if (
 
-			new ControladorDeUsuario().criarUsuario(request.getParameter("nomeC"),
-					request.getParameter("filicaoPaterna"), request.getParameter("filicaoMaterna"),
-					request.getParameter("dataNascimento"), request.getParameter("cpf"))
+					new ControladorDeUsuario().criarUsuario(request.getParameter("nomeC"),
+					request.getParameter("filiacaoPaterna"), request.getParameter("filiacaoMaterna"),
+					request.getParameter("dataNascimento"), request.getParameter("cpf")).getId() != null
 
 			) {
 				System.out.println("O usuario esta criado!");

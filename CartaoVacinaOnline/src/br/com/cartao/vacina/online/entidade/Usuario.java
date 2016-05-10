@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -16,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @NamedQueries({
+	@NamedQuery(name = "Usuario.findLogin", query = "Select u from Usuario u where u.cpf = :cpf AND u.dataNascimento = :dataNascimento "),
 		@NamedQuery(name = "Usuario.findLogin", query = "Select u from Usuario u where u.cpf = :cpf AND u.dataNascimento = :dataNascimento "),
 		@NamedQuery(name = "Usuario.consultaCPF", query = "Select u from Usuario u where u.cpf = :cpf ")
 })
@@ -27,7 +29,7 @@ public class Usuario {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	private String nome;
 	private String filiacaoPai;
 	private String filiacaoMae;
@@ -35,11 +37,14 @@ public class Usuario {
 	private Date dataNascimento;
 	@Column(unique=true)
 	private Long cpf;
-	@OneToMany
-	@JoinColumn(name = "idFiliacao")
+	
+	
+	@OneToMany(mappedBy="responsavel")
 	private List<Usuario> listaDependentes;
 
-	
+	@ManyToOne
+	@JoinColumn(name="responsavelId" )
+	private Usuario responsavel;
 	
 	public Usuario() {
 	}
@@ -50,6 +55,13 @@ public class Usuario {
 		this.filiacaoMae = filiacaoMae;
 		this.dataNascimento = dataNascimento;
 		this.cpf = cpf;
+	}
+
+	public Usuario(String nome, String filiacaoPai, String filiacaoMae, Date dataNascimento) {
+		this.nome = nome;
+		this.filiacaoPai = filiacaoPai;
+		this.filiacaoMae = filiacaoMae;
+		this.dataNascimento = dataNascimento;
 	}
 
 	public String getNome() {
@@ -98,6 +110,22 @@ public class Usuario {
 
 	public void setListaDependentes(List<Usuario> listaDependentes) {
 		this.listaDependentes = listaDependentes;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Usuario getResponsavel() {
+		return responsavel;
+	}
+
+	public void setResponsavel(Usuario responsavel) {
+		this.responsavel = responsavel;
 	}
 
 	@Override

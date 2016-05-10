@@ -1,6 +1,8 @@
 package br.com.cartao.vacina.online.controle;
 
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -13,7 +15,8 @@ public class ControladorDeUsuario {
 	public Usuario login(String cpf, String dataNascimento) {
 
 		Util util = new Util();
-		//converte o cpf String para Long e data String para Date e faz o login retornando um usuario caso exista!
+		// converte o cpf String para Long e data String para Date e faz o login
+		// retornando um usuario caso exista!
 		return fazerLogin(util.convesorDeCpf(cpf), util.formataData(dataNascimento));
 
 	}
@@ -46,56 +49,85 @@ public class ControladorDeUsuario {
 
 	}
 
-	public Boolean criarUsuario(String nome, String filiacaoPai, String filiacaoMae, String dataNascimento,
+	public Usuario criarUsuario(String nome, String filiacaoPai, String filiacaoMae, String dataNascimento,
 			String cpf) {
 		// instancia da classe auxiliadora util
 		Util util = new Util();
 		// cria um novo usuario com os parametros passado
 		Date d = util.formataData(dataNascimento);
-		System.out.println("data d = "+d);
-		return cadastrarNovoUsuario(new Usuario(nome, filiacaoPai, filiacaoMae, d,
-				util.convesorDeCpf(cpf)));
-	}
 
-	private Boolean cadastrarNovoUsuario(Usuario usuario) {
+		return cadastrarNovoUsuario(new Usuario(nome, filiacaoPai, filiacaoMae, d, util.convesorDeCpf(cpf)));
+	}
+	
+	private Usuario cadastrarNovoUsuario(Usuario usuario) {
 		EntityManager em = JpaUtil.getInstancia().getEntidadeManager();
 		try {
 			em.getTransaction().begin();
 			em.persist(usuario);
 			em.getTransaction().commit();
-			em.close();
-			return true;
+			em.refresh(usuario);
+			
 		} catch (Exception e) {
 			System.err.println("erro na gravaçao do usuario  =" + e.getMessage());
 		}
 		em.close();
-		return false;
+		return usuario;
 	}
 
 	public boolean verficaCPF(String cpf) {
-		
+
 		Long cpfLong = new Util().convesorDeCpf(cpf);
-		
-		EntityManager em =   JpaUtil.getInstancia().getEntidadeManager();
+
+		EntityManager em = JpaUtil.getInstancia().getEntidadeManager();
 		Query q = em.createNamedQuery("Usuario.consultaCPF", Usuario.class);
-		q.setParameter("cpf",cpfLong );
+		q.setParameter("cpf", cpfLong);
 		Usuario u = null;
 		try {
-			u  = (Usuario) q.getSingleResult();
+			u = (Usuario) q.getSingleResult();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		if(u != null){
+		if (u != null) {
 			return true;
 		}
 		return false;
 	}
-	
 
+	public void cadastrarDependente(Usuario responsavel, String nome, String dataNascimento, String filiacaoPaterna, String filiacaoMaterna) {
+		
+		// instancia da classe auxiliadora util
+		Util util = new Util();
+		// cria um novo usuario com os parametros passado
+		Date data = util.formataData(dataNascimento);
+		//cria o dependente e cadastra o dependente
+		Usuario dependente = new Usuario(nome, filiacaoPaterna, filiacaoMaterna, data);
+		cadastrarNovoUsuario(dependente);
+		
+		//busca a lista de filhos do responsavel caso ele tenha!
+		List<Usuario> dependentes = getDependentes(responsavel);
+		
+		
+		
+		
+//		dependentes.add();
+		
+//		responsavel.setListaDependentes(dependentes);
+//		alterarUsuario(responsavel);
+	}
 
-	public void cadastrarDependente(Usuario responsavel, String parameter, String parameter2) {
+	private void alterarUsuario(Usuario responsavel) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	private List<Usuario> getDependentes(Usuario responsavel) {
+
+		EntityManager em = JpaUtil.getInstancia().getEntidadeManager();
+		Query q = em.createNamedQuery("Usuario.consultaCPF", Usuario.class);
+		q.setParameter("responsavel", responsavel);
+		List<Usuario> u = q.getResultList();
+		em.close();
+		return u;
 	}
 
 }
