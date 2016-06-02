@@ -40,15 +40,27 @@ $(document).ready(function(){
 					type: "POST",
 					url: "entrar",
 					data: dados,
+					beforeSend: function(){
+						try {
+							
+							$("#envair").attr("value", "Consultando aguarde!");
+							$('#envair').attr('disabled', 'disabled');
+						} catch (e) {
+							alert('erro ao carregar!')
+						}
+						
+						
+					},
 					success: function( data )
 					{
-						
+						$("#envair").attr("value", "CONSULTAR")
+						$('#envair').removeAttr('disabled');
 						if(util.converteStringParaBoolean(data)){
 							
 							util.redirecionar('menu.html');
 							
 						}else{
-							alert("Seu cpf ou data de nascimento estão incorretos!");
+							alert("Seu cpf ou data de nascimento esta incorretos!");
 						}
 						
 					}

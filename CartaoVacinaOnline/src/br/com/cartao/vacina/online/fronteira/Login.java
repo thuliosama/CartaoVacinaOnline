@@ -19,13 +19,20 @@ public class Login extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		resp.setContentType("text/html");
+		System.out.println("get entrar!");
+	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("consultando cpf = "+request.getParameter("cpf")+" data nascimento = "+ request.getParameter("dataNascimento") );
-		//consulta se tem o usuario no banco de dados
-		Usuario usuario = new ControladorDeUsuario().login(request.getParameter("cpf"), request.getParameter("dataNascimento"));
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
+	
+		
+		//consulta se tem o usuario no banco de dados
+		Usuario usuario = new ControladorDeUsuario().login(request.getParameter("cpf"), request.getParameter("dataNascimento"));
 		
 //		se o usuario existir
 		if (usuario != null) {

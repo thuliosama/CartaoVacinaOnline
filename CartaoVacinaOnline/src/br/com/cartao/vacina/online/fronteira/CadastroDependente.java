@@ -1,6 +1,7 @@
 package br.com.cartao.vacina.online.fronteira;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +25,16 @@ public class CadastroDependente extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Usuario responsavel = (Usuario) session.getAttribute("usuario");
-		new ControladorDeUsuario().cadastrarDependente(responsavel,request.getParameter("nomeC"), request.getParameter("dataNascimento"), 
+		Usuario responsavelAtualizado = new ControladorDeUsuario().cadastrarDependente(responsavel,request.getParameter("nomeC"), request.getParameter("dataNascimento"), 
 				request.getParameter("filiacaoPaterna"), request.getParameter("filiacaoMaterna"));
+		PrintWriter out = response.getWriter();
+		session.setAttribute("usuario", responsavelAtualizado);
+		
+		if(responsavelAtualizado.getId() != null){
+			out.println("true");
+		} else {
+			out.print("false");
+		}
 		
 	}
 }

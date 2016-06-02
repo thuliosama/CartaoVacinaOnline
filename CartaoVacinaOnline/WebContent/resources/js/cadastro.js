@@ -12,7 +12,7 @@ var util = new Util();
 	               success: function(response) {
 	                  if(!util.converteStringParaBoolean(response)){
 	                		$('#CPFInfo').css('display', 'block');
-	            			$('#CPFInfo').html("Este CPF já esta cadastrado");
+	            			$('#CPFInfo').html("Este CPF ja esta cadastrado");
 	            			$('#CPFInfo').css('color', 'red');
 	                  }else{
 	                	  $('#CPFInfo').html('');
@@ -48,16 +48,18 @@ $('#form_cadastro').validate({
 	rules: {
 		nomeC:{required: true },
 		dataNascimento: { required: true, dateBR:true},
-		cpf: { required: true, verificaCPF: true },          
+		//cpf: { required: true, verificaCPF: true },  
+		cpf: { required: true }, 
 		recpf:{required: true, equalTo:"#CPF"}
 		
 		
 	},
 	messages: {
 		nomeC:{ required: "O campo nome é obrigatório!" },
-		dataNascimento: { required: 'A data de nascimento é obrigatório!', dateBR: 'Informe uma data de nascimento valida'},
-		cpf: { required: 'O campo CPF é obrigatório!', verificaCPF: 'Digite um cpf valido!' },
-		recpf:{required: "O campo repita seu cpf é obrigatório!", equalTo:"O valor informado não esta igual ao do campo cpf!"}
+		dataNascimento: { required: 'A data de nascimento e obrigatorio!', dateBR: 'Informe uma data de nascimento valida'},
+		//cpf: { required: 'O campo CPF é obrigatório!', verificaCPF: 'Digite um cpf valido!' },
+		cpf: { required: 'O campo CPF e obrigatório!'},
+		recpf:{required: "O campo repita seu cpf e obrigatório!", equalTo:"O valor informado nao esta igual ao do campo cpf!"}
 	},
 	submitHandler: function( form ){
 		var dados = $( form ).serialize();

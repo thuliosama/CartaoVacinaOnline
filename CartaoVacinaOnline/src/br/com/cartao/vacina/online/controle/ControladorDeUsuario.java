@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import br.com.cartao.vacina.online.controle.util.Util;
 import br.com.cartao.vacina.online.entidade.JpaUtil;
 import br.com.cartao.vacina.online.entidade.Usuario;
+import br.com.cartao.vacina.online.entidade.Vacina;
 
 public class ControladorDeUsuario {
 
@@ -58,7 +59,7 @@ public class ControladorDeUsuario {
 
 		return cadastrarNovoUsuario(new Usuario(nome, filiacaoPai, filiacaoMae, d, util.convesorDeCpf(cpf)));
 	}
-	
+
 	private Usuario cadastrarNovoUsuario(Usuario usuario) {
 		EntityManager em = JpaUtil.getInstancia().getEntidadeManager();
 		try {
@@ -66,7 +67,7 @@ public class ControladorDeUsuario {
 			em.persist(usuario);
 			em.getTransaction().commit();
 			em.refresh(usuario);
-			
+
 		} catch (Exception e) {
 			System.err.println("erro na gravaçao do usuario  =" + e.getMessage());
 		}
@@ -93,41 +94,75 @@ public class ControladorDeUsuario {
 		return false;
 	}
 
-	public void cadastrarDependente(Usuario responsavel, String nome, String dataNascimento, String filiacaoPaterna, String filiacaoMaterna) {
-		
+	public Usuario cadastrarDependente(Usuario responsavel, String nome, String dataNascimento, String filiacaoPaterna,
+			String filiacaoMaterna) {
+
 		// instancia da classe auxiliadora util
 		Util util = new Util();
 		// cria um novo usuario com os parametros passado
 		Date data = util.formataData(dataNascimento);
-		//cria o dependente e cadastra o dependente
-		Usuario dependente = new Usuario(nome, filiacaoPaterna, filiacaoMaterna, data);
-		cadastrarNovoUsuario(dependente);
-		
-		//busca a lista de filhos do responsavel caso ele tenha!
-		List<Usuario> dependentes = getDependentes(responsavel);
-		
-		
-		
-		
-//		dependentes.add();
-		
-//		responsavel.setListaDependentes(dependentes);
-//		alterarUsuario(responsavel);
+		// cria o dependente e cadastra o dependente
+		Usuario dependente = cadastrarNovoUsuario(new Usuario(nome, filiacaoPaterna, filiacaoMaterna, data));
+
+		// busca a lista de filhos do responsavel caso ele tenha!
+		dependente.setResponsavel(responsavel);
+		alterarUsuario(dependente);
+		return getUsuario(responsavel.getId());
+
 	}
 
-	private void alterarUsuario(Usuario responsavel) {
-		// TODO Auto-generated method stub
-		
+	public void adicionarVacina(Usuario usuario, Vacina vacina) {
+		List<Vacina> listaVacinasTomada = new ControladorDeVacina().vacinasTomadas(usuario);
+		listaVacinasTomada.add(vacina);
+		usuario.setVacinas(listaVacinasTomada);
+		alterarUsuario(usuario);
 	}
 
-	private List<Usuario> getDependentes(Usuario responsavel) {
+	
+
+	public void adicionarDependente(Usuario responsavel, Usuario dependente) {
+
+		List<Usuario> listaDepdenetes = getDependentes(responsavel);
+		listaDepdenetes.add(dependente);
+		dependente.setResponsavel(responsavel);
+		// adiciona os filhos ao pai;
+		responsavel.setListaDependentes(listaDepdenetes);
+		alterarUsuario(dependente);
+	}
+
+	private  Usuario alterarUsuario(Usuario usuario) {
 
 		EntityManager em = JpaUtil.getInstancia().getEntidadeManager();
-		Query q = em.createNamedQuery("Usuario.consultaCPF", Usuario.class);
+		try {
+			em.getTransaction().begin();
+			Usuario aux = em.find(Usuario.class, usuario.getId());
+			aux = usuario;
+			em.merge(aux);
+			em.getTransaction().commit();
+
+		} catch (Exception e) {
+			System.out.println("erro na edicao do usuario =" + e.getMessage());
+		}
+		em.close();
+		return usuario;
+	}
+
+	public List<Usuario> getDependentes(Usuario responsavel) {
+
+		EntityManager em = JpaUtil.getInstancia().getEntidadeManager();
+		Query q = em.createNamedQuery("Usuario.findDependentes", Usuario.class);
 		q.setParameter("responsavel", responsavel);
+		@SuppressWarnings("unchecked")
 		List<Usuario> u = q.getResultList();
 		em.close();
 		return u;
+	}
+
+	public Usuario getUsuario(Long idUsuario) {
+		EntityManager em = JpaUtil.getInstancia().getEntidadeManager();
+		Usuario resp = em.find(Usuario.class, idUsuario);
+		em.close();
+		return resp;
 	}
 
 }

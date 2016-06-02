@@ -27,13 +27,15 @@ public class Util {
 
 	// converte o cpf de String para integer tirando caracteres especiais
 	public Long convesorDeCpf(String cpf) {
+		Long retorno = null; 
+		try {
 		// retira o ponto da string
 		cpf = cpf.replaceAll("\\.", "");
 		// retira o menos da string
 		cpf = cpf.replaceAll("-", "");
 		// converte a strign para integer e retorna o valor
-		Long retorno = null; 
-		try {
+		
+		
 			 retorno = Long.parseLong(cpf);
 		} catch (Exception e) {
 			System.out.println("nao consegui converter o cpf em Integer! "+e.getMessage());

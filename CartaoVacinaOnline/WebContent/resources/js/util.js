@@ -99,19 +99,37 @@ var Util = function(){
 		
 	};
 	
-	
+	//modo de usar getUrlVars()["atributo"]
+	Util.prototype.getUrlVars = function() {
+		try {
+			 var vars = [], hash;
+			    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			    for(var i = 0; i < hashes.length; i++)
+			    {
+			        hash = hashes[i].split('=');
+			        vars.push(hash[0]);
+			        vars[hash[0]] = hash[1];
+			    }
+			    return vars;
+		} catch (e) {
+			alert('erro no metodo getHash = '+e.toString());
+		}
+		
+		
+	};
 
 
 $(document).ready(function() {
-		
-	
-	
+try{
 	$('.cpf').mask('000.000.000-00', {
 		reverse : true
 	});
 	$('.dataNasci').mask('00/00/0000');
 	
+}catch (e) {
 
+}	
+	
 
 });
 
